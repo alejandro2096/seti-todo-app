@@ -8,9 +8,13 @@ import { IonicStorageModule } from '@ionic/storage-angular';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { StorageService } from './core/services/storage.service';
+import { RemoteConfigService } from './core/services/remote-config.service';
 
-function initStorage(storage: StorageService) {
-  return () => storage.init();
+function initApp(storage: StorageService, remoteConfig: RemoteConfigService) {
+  return async () => {
+    await storage.init();
+    await remoteConfig.init();
+  };
 }
 
 @NgModule({
@@ -25,8 +29,8 @@ function initStorage(storage: StorageService) {
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {
       provide: APP_INITIALIZER,
-      useFactory: initStorage,
-      deps: [StorageService],
+      useFactory: initApp,
+      deps: [StorageService, RemoteConfigService],
       multi: true,
     },
   ],

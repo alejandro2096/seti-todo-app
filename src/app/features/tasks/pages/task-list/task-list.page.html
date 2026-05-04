@@ -7,8 +7,8 @@
       </div>
     </ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="showStats.set(!showStats())" fill="clear">
-        <ion-icon slot="icon-only" [name]="showStats() ? 'stats-chart' : 'stats-chart-outline'"></ion-icon>
+      <ion-button *ngIf="showStats()" fill="clear" disabled>
+        <ion-icon slot="icon-only" name="stats-chart" color="primary"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>

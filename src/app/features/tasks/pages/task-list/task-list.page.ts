@@ -6,6 +6,7 @@ import { TaskService } from '../../services/task.service';
 import { CategoryService } from '../../../categories/services/category.service';
 import { TaskFormComponent } from '../../components/task-form/task-form.component';
 import { TaskItemComponent } from '../../components/task-item/task-item.component';
+import { RemoteConfigService } from '../../../../core/services/remote-config.service';
 
 @Component({
   selector: 'app-task-list',
@@ -17,7 +18,9 @@ import { TaskItemComponent } from '../../components/task-item/task-item.componen
 })
 export class TaskListPage implements OnInit {
   readonly selectedCategoryId = signal<string | null>(null);
-  readonly showStats = signal<boolean>(false);
+
+  // Feature flag from Firebase Remote Config
+  readonly showStats = this.remoteConfig.statsEnabled;
 
   readonly tasks = this.taskService.tasks;
   readonly categories = this.categoryService.categories;
@@ -40,6 +43,7 @@ export class TaskListPage implements OnInit {
   constructor(
     private taskService: TaskService,
     private categoryService: CategoryService,
+    private remoteConfig: RemoteConfigService,
     private modalCtrl: ModalController,
     private alertCtrl: AlertController,
     private toastCtrl: ToastController,
