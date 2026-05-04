@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="dismiss()" fill="clear">
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{ isEditing ? 'Editar categoría' : 'Nueva categoría' }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="submit()" [disabled]="form.invalid" fill="clear" color="primary">
+        <strong>Guardar</strong>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="form">
+    <div class="form-section">
+      <ion-item class="form-item">
+        <ion-label position="stacked">Nombre *</ion-label>
+        <ion-input
+          formControlName="name"
+          placeholder="Ej: Trabajo, Personal, Salud..."
+          [clearInput]="true"
+          autocapitalize="sentences"
+        ></ion-input>
+      </ion-item>
+    </div>
+
+    <div class="form-section">
+      <p class="section-label">Color</p>
+      <div class="color-grid">
+        <div
+          *ngFor="let color of colors"
+          class="color-swatch"
+          [style.background]="color"
+          [class.selected]="form.get('color')?.value === color"
+          (click)="selectColor(color)"
+        >
+          <ion-icon *ngIf="form.get('color')?.value === color" name="checkmark" color="light"></ion-icon>
+        </div>
+      </div>
+    </div>
+
+    <div class="preview-section" *ngIf="form.get('name')?.value">
+      <p class="section-label">Vista previa</p>
+      <div class="preview-chip" [style.background]="form.get('color')?.value + '22'" [style.color]="form.get('color')?.value">
+        <span class="dot" [style.background]="form.get('color')?.value"></span>
+        {{ form.get('name')?.value }}
+      </div>
+    </div>
+  </form>
+</ion-content>

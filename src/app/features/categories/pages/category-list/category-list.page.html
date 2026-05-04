@@ -1,0 +1,51 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Categorías</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Categorías</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div class="ion-padding-horizontal">
+    <div class="categories-list">
+      <ion-item-sliding
+        *ngFor="let category of categories(); trackBy: trackByCategory"
+      >
+        <ion-item lines="none" class="category-item" (click)="openCategoryForm(category)">
+          <div class="color-indicator" slot="start" [style.background]="category.color"></div>
+          <ion-label>
+            <h2>{{ category.name }}</h2>
+            <p>{{ getTaskCount(category.id) }} tarea(s)</p>
+          </ion-label>
+          <ion-icon name="chevron-forward-outline" slot="end" color="medium"></ion-icon>
+        </ion-item>
+
+        <ion-item-options side="end">
+          <ion-item-option color="danger" (click)="confirmDelete(category)" expandable>
+            <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </div>
+
+    <!-- Empty State -->
+    <div class="empty-state" *ngIf="categories().length === 0">
+      <div class="empty-icon">
+        <ion-icon name="pricetags-outline"></ion-icon>
+      </div>
+      <h3>Sin categorías</h3>
+      <p>Organiza tus tareas creando categorías como Trabajo, Personal, Salud...</p>
+    </div>
+  </div>
+</ion-content>
+
+<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab-button (click)="openCategoryForm()" color="primary">
+    <ion-icon name="add-outline"></ion-icon>
+  </ion-fab-button>
+</ion-fab>

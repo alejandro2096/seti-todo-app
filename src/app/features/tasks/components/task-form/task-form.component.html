@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="dismiss()" fill="clear">
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{ isEditing ? 'Editar tarea' : 'Nueva tarea' }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="submit()" [disabled]="form.invalid" fill="clear" color="primary">
+        <strong>Guardar</strong>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="form">
+    <div class="form-section">
+      <ion-item class="form-item">
+        <ion-label position="stacked">Título *</ion-label>
+        <ion-input
+          formControlName="title"
+          placeholder="¿Qué hay que hacer?"
+          [clearInput]="true"
+          autocapitalize="sentences"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item class="form-item">
+        <ion-label position="stacked">Descripción</ion-label>
+        <ion-textarea
+          formControlName="description"
+          placeholder="Detalles opcionales..."
+          [autoGrow]="true"
+          rows="3"
+        ></ion-textarea>
+      </ion-item>
+    </div>
+
+    <div class="form-section">
+      <p class="section-label">Categoría</p>
+      <div class="category-selector">
+        <div
+          class="category-option"
+          [class.selected]="form.get('categoryId')?.value === null"
+          (click)="form.get('categoryId')?.setValue(null)"
+        >
+          <div class="color-dot none-dot">
+            <ion-icon name="close-outline"></ion-icon>
+          </div>
+          <span>Ninguna</span>
+        </div>
+        <div
+          *ngFor="let cat of categories"
+          class="category-option"
+          [class.selected]="form.get('categoryId')?.value === cat.id"
+          (click)="form.get('categoryId')?.setValue(cat.id)"
+        >
+          <div class="color-dot" [style.background]="cat.color"></div>
+          <span>{{ cat.name }}</span>
+        </div>
+      </div>
+    </div>
+  </form>
+</ion-content>

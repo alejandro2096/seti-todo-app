@@ -1,0 +1,91 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      <div class="header-title">
+        <span>Mis Tareas</span>
+        <ion-badge *ngIf="pendingCount() > 0" color="primary">{{ pendingCount() }}</ion-badge>
+      </div>
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="showStats.set(!showStats())" fill="clear">
+        <ion-icon slot="icon-only" [name]="showStats() ? 'stats-chart' : 'stats-chart-outline'"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Mis Tareas</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- Stats Panel (Feature Flag controlled) -->
+  <div class="stats-panel" *ngIf="showStats() && tasks().length > 0">
+    <div class="stat-card">
+      <span class="stat-number">{{ tasks().length }}</span>
+      <span class="stat-label">Total</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-number">{{ pendingCount() }}</span>
+      <span class="stat-label">Pendientes</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-number">{{ completedCount() }}</span>
+      <span class="stat-label">Completadas</span>
+    </div>
+    <div class="stat-card accent">
+      <span class="stat-number">{{ completionPercentage() }}%</span>
+      <span class="stat-label">Progreso</span>
+    </div>
+  </div>
+
+  <!-- Category Filters -->
+  <div class="category-filters" *ngIf="categories().length > 0">
+    <div
+      class="filter-chip"
+      [class.active]="selectedCategoryId() === null"
+      (click)="selectCategory(null)"
+    >
+      Todas
+    </div>
+    <div
+      *ngFor="let cat of categories()"
+      class="filter-chip"
+      [class.active]="selectedCategoryId() === cat.id"
+      [style.--chip-color]="cat.color"
+      (click)="selectCategory(cat.id)"
+    >
+      <span class="chip-dot" [style.background]="cat.color"></span>
+      {{ cat.name }}
+    </div>
+  </div>
+
+  <!-- Task List -->
+  <div class="task-list ion-padding-horizontal">
+    <app-task-item
+      *ngFor="let task of filteredTasks(); trackBy: trackByTask"
+      [task]="task"
+      [category]="getCategoryForTask(task)"
+      (toggleComplete)="toggleComplete($event)"
+      (deleteTask)="confirmDelete($event)"
+      (editTask)="openTaskForm($event)"
+    ></app-task-item>
+
+    <!-- Empty State -->
+    <div class="empty-state" *ngIf="filteredTasks().length === 0">
+      <div class="empty-icon">
+        <ion-icon name="checkmark-circle-outline"></ion-icon>
+      </div>
+      <h3>{{ tasks().length === 0 ? '¡Sin tareas aún!' : 'Sin tareas en esta categoría' }}</h3>
+      <p>{{ tasks().length === 0 ? 'Toca el botón + para agregar tu primera tarea' : 'Selecciona otra categoría o agrega una nueva tarea' }}</p>
+    </div>
+  </div>
+</ion-content>
+
+<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab-button (click)="openTaskForm()" color="primary">
+    <ion-icon name="add-outline"></ion-icon>
+  </ion-fab-button>
+</ion-fab>

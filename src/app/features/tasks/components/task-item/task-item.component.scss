@@ -1,0 +1,48 @@
+.task-item {
+  --background: var(--ion-card-background);
+  --border-radius: 12px;
+  margin-bottom: 8px;
+  --padding-start: 12px;
+  --inner-padding-end: 12px;
+  transition: opacity 0.3s ease;
+
+  &.completed {
+    opacity: 0.6;
+  }
+}
+
+.strikethrough {
+  text-decoration: line-through;
+  color: var(--ion-color-medium);
+}
+
+.category-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 20px;
+  margin-top: 4px;
+  letter-spacing: 0.3px;
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+  }
+}
+
+ion-label h2 {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ion-text-color);
+  transition: all 0.3s ease;
+}
+
+ion-label p {
+  font-size: 13px;
+  color: var(--ion-color-medium);
+  margin-top: 2px;
+}
