@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+
+# Build output
+www/
+dist/
+
+# Cordova platforms & plugins (generated)
+platforms/
+plugins/
+
+# Capacitor
+android/
+ios/
+
+# Environment
+.env
+.env.local
+google-services.json
+GoogleService-Info.plist
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Angular
+.angular/
+
+# pnpm
+.pnpm-debug.log
