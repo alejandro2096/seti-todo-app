@@ -76,6 +76,18 @@ El signal `statsEnabled` se consume directamente en el template con `*ngIf="show
 
 ---
 
+## Capturas de pantalla — Android
+
+| Lista de tareas (Todas) | Filtro por categoría | Filtro Trabajo | Filtro Películas |
+|---|---|---|---|
+| ![Todas](docs/screenshots/android-tareas-todas.jpeg) | ![Salud](docs/screenshots/android-tareas-salud.jpeg) | ![Trabajo](docs/screenshots/android-tareas-trabajo.jpeg) | ![Películas](docs/screenshots/android-tareas-peliculas.jpeg) |
+
+| Categorías | Categorías (variante) |
+|---|---|
+| ![Categorías 1](docs/screenshots/android-categorias-1.jpeg) | ![Categorías 2](docs/screenshots/android-categorias-2.jpeg) |
+
+---
+
 ## Entregables
 
 | Archivo | Plataforma |
@@ -83,7 +95,7 @@ El signal `statsEnabled` se consume directamente en el template con `*ngIf="show
 | `deliverables/SetiTodoApp.apk` | Android (debug build) |
 | `deliverables/SetiTodoApp-simulator.ipa` | iOS (simulator build) |
 
-> **Nota sobre el IPA:** La generación de un IPA firmado para dispositivo físico requiere una cuenta de Apple Developer con certificado de distribución. El IPA incluido es un build de simulador, funcional en Xcode Simulator. El build de Release (`xcodebuild archive`) compila sin errores pero requiere un equipo de desarrollo seleccionado para el paso de firmado.
+> **Nota sobre iOS:** El build de Xcode compila sin errores (`BUILD SUCCEEDED`). La ejecución en dispositivo físico requiere Trust del certificado de desarrollador y tiene una limitación conocida de `cordova-plugin-ionic-webview 5.0.0` con iOS 16+: el método `keyWindow` está deprecado, lo que puede impedir la carga del WebView en ciertos entornos. La distribución oficial requiere una cuenta de Apple Developer para firma con certificado de distribución.
 
 ---
 

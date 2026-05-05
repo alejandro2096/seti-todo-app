@@ -30,8 +30,11 @@ export class RemoteConfigService {
   }
 
   async init(): Promise<void> {
+    const timeout = new Promise<void>((_, reject) =>
+      setTimeout(() => reject(new Error('timeout')), 5000)
+    );
     try {
-      await fetchAndActivate(this.remoteConfig);
+      await Promise.race([fetchAndActivate(this.remoteConfig), timeout]);
       const value = getValue(this.remoteConfig, 'show_statistics_panel');
       this.statsEnabled.set(value.asBoolean());
     } catch (err) {

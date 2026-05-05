@@ -12,8 +12,14 @@ import { RemoteConfigService } from './core/services/remote-config.service';
 
 function initApp(storage: StorageService, remoteConfig: RemoteConfigService) {
   return async () => {
-    await storage.init();
-    await remoteConfig.init();
+    // Storage must be ready before the app renders (needed for data access).
+    // Race with a 5s safety timeout so a localforage hang never blocks startup.
+    const storageTimeout = new Promise<void>(resolve => setTimeout(resolve, 5000));
+    await Promise.race([storage.init(), storageTimeout]);
+
+    // Remote Config is non-blocking: the signal updates whenever Firebase responds.
+    // This avoids a network-dependent delay blocking the entire app startup.
+    remoteConfig.init().catch(err => console.warn('[RemoteConfig] init failed', err));
   };
 }
 
